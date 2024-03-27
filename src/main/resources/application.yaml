@@ -1,0 +1,12 @@
+app:
+  browser:
+    name: chrome
+    remote: false
+    remoteServerAddress: http://localhost:4444
+    resolution:
+      width: 1920
+      height: 1080
+    headless: false
+spring:
+  profiles:
+    active: prod
