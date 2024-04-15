@@ -1,16 +1,30 @@
 package com.iamalexvybornyi.page.element;
 
+import com.iamalexvybornyi.core.element.AbstractWebElement;
+import com.iamalexvybornyi.core.element.Button;
+import com.iamalexvybornyi.core.element.Image;
+import com.iamalexvybornyi.core.element.Label;
 import lombok.Getter;
 import org.openqa.selenium.By;
-import org.springframework.stereotype.Component;
+import org.openqa.selenium.WebElement;
 
-@Component
+import java.util.function.Supplier;
+
 @Getter
-public class ProductItemElement {
-    private final By title = By.xpath(".//div[@class='inventory_item_name ']");
-    private final By description = By.xpath(".//div[@class='inventory_item_desc']");
-    private final By price = By.xpath(".//div[@class='inventory_item_price']");
-    private final By image = By.xpath(".//div[@class='inventory_item_img']//img");
-    private final By addToCartButton = By.xpath(".//button[contains(@id,'add-to-cart')]");
-    private final By removeFromCartButton = By.xpath(".//button[contains(@id, 'remove-sauce-labs')]");
+public class ProductItemElement extends AbstractWebElement {
+
+    private final Label title = new Label(By.xpath(".//div[@class='inventory_item_name ']"), this);
+    private final Label description = new Label(By.xpath(".//div[@class='inventory_item_desc']"), this);
+    private final Label price = new Label(By.xpath(".//div[@class='inventory_item_price']"), this);
+    private final Image image = new Image(By.xpath(".//div[@class='inventory_item_img']//img"), this);
+    private final Button addToCartButton = new Button(By.xpath(".//button[contains(@id,'add-to-cart')]"), this);
+    private final Button removeFromCartButton = new Button(By.xpath(".//button[contains(@id, 'remove-sauce-labs')]"), this);
+
+    public ProductItemElement(By locator) {
+        super(locator);
+    }
+
+    public ProductItemElement(By locator, Supplier<WebElement> webElementSupplier) {
+        super(locator, webElementSupplier);
+    }
 }

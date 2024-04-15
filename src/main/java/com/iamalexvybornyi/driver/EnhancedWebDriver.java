@@ -10,7 +10,13 @@ import java.util.List;
 
 public interface EnhancedWebDriver extends WebDriver {
 
+    @NonNull
     WebElement waitForElementToBeVisible(@NonNull By by);
+    @NonNull
     List<WebElement> waitForElementsToBeVisible(@NonNull By by);
+    boolean waitForElementToBeInvisible(@NonNull By by);
+    @NonNull
     TakesScreenshot getTakesScreenshot();
+    @NonNull
+    WebDriver getOriginalWebDriver();
 }

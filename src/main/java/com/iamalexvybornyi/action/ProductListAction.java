@@ -1,12 +1,12 @@
 package com.iamalexvybornyi.action;
 
-import com.iamalexvybornyi.driver.DriverProvider;
+import com.iamalexvybornyi.core.element.Label;
 import com.iamalexvybornyi.model.ProductItem;
+import com.iamalexvybornyi.page.element.ProductItemElement;
 import io.qameta.allure.Step;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 import org.testng.Assert;
 import com.iamalexvybornyi.page.ProductListPage;
@@ -18,27 +18,27 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ProductListAction {
+
+    @NonNull
     private final ProductListPage productListPage;
 
     @Step("Verify product list is displayed")
     public void verifyProductListIsDisplayed() {
         log.info("Verifying that the product list is displayed on the page");
-        Assert.assertTrue(DriverProvider.getDriver().waitForElementToBeVisible(productListPage.getProductListContainer())
-                .isDisplayed());
+        Assert.assertTrue(productListPage.getProductListContainer().getRootWebElement().isDisplayed());
     }
 
     @Step("Verify expected product items are displayed")
     public void verifyExpectedProductItemsAreDisplayed(@NonNull List<ProductItem> expectedProductItems) {
         log.info("Getting product list from the page");
-        final List<WebElement> productItemsFromPage =
-                DriverProvider.getDriver().waitForElementsToBeVisible(productListPage.getProductItems());
+        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemList().getElements();
         final List<ProductItem> actualProductItems = new ArrayList<>();
         productItemsFromPage.forEach(productItem -> actualProductItems.add(
                 new ProductItem(
-                        productItem.findElement(productListPage.getProductItemElement().getTitle()).getText(),
-                        productItem.findElement(productListPage.getProductItemElement().getDescription()).getText(),
-                        productItem.findElement(productListPage.getProductItemElement().getPrice()).getText(),
-                        productItem.findElement(productListPage.getProductItemElement().getImage()).getAttribute("alt")
+                        productItem.getTitle().getText(),
+                        productItem.getDescription().getText(),
+                        productItem.getPrice().getText(),
+                        productItem.getImage().getImageAlt()
                 )));
         log.info("Verifying that the product list from the page {} is equal to {}", actualProductItems,
                 expectedProductItems);
@@ -48,18 +48,17 @@ public class ProductListAction {
 
     @Step("Add product from list to cart")
     public void addProductFromListToCart(@NonNull String productTitle) {
-        WebElement foundProductItem = findProductOnPage(productTitle);
+        final ProductItemElement foundProductItem = findProductOnPage(productTitle);
         log.info("Adding the product with title '{}' to cart", productTitle);
-        foundProductItem.findElement(productListPage.getProductItemElement().getAddToCartButton()).click();
+        foundProductItem.getAddToCartButton().click();
     }
 
     @Step("Verify product is added to cart")
     public void verifyProductIsAddedToCart(@NonNull String productTitle) {
-        WebElement productItem = findProductOnPage(productTitle);
+        final ProductItemElement productItem = findProductOnPage(productTitle);
         log.info("Verifying the product with title '{}' is added to cart", productTitle);
         Assert.assertTrue(
-                productItem.findElement(productListPage.getProductItemElement()
-                        .getRemoveFromCartButton()).isDisplayed(),
+                productItem.getRemoveFromCartButton().getRootWebElement().isDisplayed(),
                 "Product is not in the cart!"
         );
     }
@@ -67,9 +66,7 @@ public class ProductListAction {
     @Step("Verify the number of products in cart")
     public void verifyTheNumberOfProductsInCart(int expectedNumberOfProducts) {
         log.info("Getting information from the shopping cart badge");
-        WebElement shoppingCartBadge =
-                DriverProvider.getDriver()
-                        .waitForElementToBeVisible(productListPage.getCommonHeaderElement().getShoppingCartBadge());
+        final Label shoppingCartBadge = productListPage.getCommonHeaderElement().getShoppingCartBadge();
         log.info("Verifying that the number of products in the cart is equal to '{}'", expectedNumberOfProducts);
         Assert.assertEquals(Integer.parseInt(shoppingCartBadge.getText()), expectedNumberOfProducts,
                 "Number of products in the cart does not match the expected one!");
@@ -77,27 +74,24 @@ public class ProductListAction {
 
     @Step("Add product from list to cart")
     public void addProductFromListToCart(int productIndex) {
-        WebElement foundProductItem = findProductOnPage(productIndex);
+        final ProductItemElement foundProductItem = findProductOnPage(productIndex);
         log.info("Adding the product with index '{}' to cart", productIndex);
-        foundProductItem.findElement(productListPage.getProductItemElement().getAddToCartButton()).click();
+        foundProductItem.getAddToCartButton().click();
     }
 
     @NonNull
-    private WebElement findProductOnPage(@NonNull String productTitle) {
+    private ProductItemElement findProductOnPage(@NonNull String productTitle) {
         log.info("Searching for the product with title '{}' on the page", productTitle);
-        final List<WebElement> productItemsFromPage =
-                DriverProvider.getDriver().waitForElementsToBeVisible(productListPage.getProductItems());
+        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemList().getElements();
         return productItemsFromPage.stream().filter(productItem ->
-                        productItem.findElement(productListPage.getProductItemElement().getTitle())
-                                .getText().equals(productTitle))
+                        productItem.getTitle().getText().equals(productTitle))
                 .toList().stream().findFirst().orElseThrow();
     }
 
     @NonNull
-    private WebElement findProductOnPage(int productIndex) {
+    private ProductItemElement findProductOnPage(int productIndex) {
         log.info("Searching for the product with index '{}' on the page", productIndex);
-        final List<WebElement> productItemsFromPage =
-                DriverProvider.getDriver().waitForElementsToBeVisible(productListPage.getProductItems());
+        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemList().getElements();
         return productItemsFromPage.get(productIndex);
     }
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,7 +17,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -63,7 +66,8 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
         }
     }
 
-    private URL getSeleniumGridAddress(BrowserConfigurationProperties browserConfigurationProperties) {
+    @NonNull
+    private URL getSeleniumGridAddress(@NonNull BrowserConfigurationProperties browserConfigurationProperties) {
         URL seleniumGridAddress = null;
         try {
             if (browserConfigurationProperties.getRemoteServerAddress() != null) {
@@ -144,21 +148,37 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     }
 
     @Override
+    @NonNull
     public WebElement waitForElementToBeVisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
-        log.debug("Waiting for element with locator '{}' to be visible", by.toString());
+        log.debug("Waiting for element with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
     }
 
     @Override
+    @NonNull
     public List<WebElement> waitForElementsToBeVisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
-        log.debug("Waiting for all elements with locator '{}' to be visible", by.toString());
+        log.debug("Waiting for all elements with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(by)));
     }
 
     @Override
+    public boolean waitForElementToBeInvisible(@NonNull By by) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        log.debug("Waiting for element with locator '{}' to be visible", by);
+        return webDriverWait.until(ExpectedConditions.invisibilityOf(driver.findElement(by)));
+    }
+
+    @Override
+    @NonNull
     public TakesScreenshot getTakesScreenshot() {
         return (TakesScreenshot)driver;
+    }
+
+    @Override
+    @NonNull
+    public WebDriver getOriginalWebDriver() {
+        return driver;
     }
 }
