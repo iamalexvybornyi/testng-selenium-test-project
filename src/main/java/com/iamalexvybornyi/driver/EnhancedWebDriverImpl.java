@@ -157,6 +157,14 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
 
     @Override
     @NonNull
+    public WebElement waitForElementToBePresent(@NonNull By by) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        log.debug("Waiting for element with locator '{}' to be visible", by);
+        return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    @Override
+    @NonNull
     public List<WebElement> waitForElementsToBeVisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
         log.debug("Waiting for all elements with locator '{}' to be visible", by);

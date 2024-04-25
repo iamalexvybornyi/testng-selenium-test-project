@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DriverProvider {
 
+    private DriverProvider() {}
+
     private static final ThreadLocal<EnhancedWebDriver> driver = new ThreadLocal<>();
 
     public static EnhancedWebDriver getDriver() {
