@@ -1,9 +1,9 @@
-package com.iamalexvybornyi.action;
+package com.iamalexvybornyi.action.saucedemo;
 
 import io.qameta.allure.Step;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import com.iamalexvybornyi.page.LoginPage;
+import com.iamalexvybornyi.page.saucedemo.LoginPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.testng.Assert;

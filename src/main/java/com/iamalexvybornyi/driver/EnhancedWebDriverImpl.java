@@ -174,7 +174,7 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     @Override
     public boolean waitForElementToBeInvisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
-        log.debug("Waiting for element with locator '{}' to be visible", by);
+        log.debug("Waiting for element with locator '{}' to be invisible", by);
         return webDriverWait.until(ExpectedConditions.invisibilityOf(driver.findElement(by)));
     }
 

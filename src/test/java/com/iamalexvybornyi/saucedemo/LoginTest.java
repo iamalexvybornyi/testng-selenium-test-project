@@ -1,19 +1,14 @@
-package com.iamalexvybornyi;
+package com.iamalexvybornyi.saucedemo;
 
-import com.iamalexvybornyi.action.LoginAction;
-import com.iamalexvybornyi.action.ProductListAction;
-import com.iamalexvybornyi.driver.DriverProvider;
+import com.iamalexvybornyi.action.saucedemo.LoginAction;
+import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.chromium.HasCdp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
-public class LoginTest extends BaseTest {
+public class LoginTest extends BaseSauceDemoTest {
 
     @Autowired
     private LoginAction loginAction;
@@ -22,13 +17,6 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void loginWithValidUserTest() {
-        Map<String, Object> cookie = new HashMap<>();
-        cookie.put("name", "cheese");
-        cookie.put("value", "gouda");
-        cookie.put("domain", "www.saucedemo.com");
-        cookie.put("secure", true);
-
-        ((HasCdp) DriverProvider.getDriver().getOriginalWebDriver()).executeCdpCommand("Network.setCookie", cookie);
         loginAction.enterUsername("standard_user");
         loginAction.enterPassword("secret_sauce");
         loginAction.clickLoginButton();

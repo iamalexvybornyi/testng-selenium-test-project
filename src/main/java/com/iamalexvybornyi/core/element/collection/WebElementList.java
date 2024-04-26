@@ -2,6 +2,7 @@ package com.iamalexvybornyi.core.element.collection;
 
 import com.iamalexvybornyi.core.element.AbstractWebElement;
 import com.iamalexvybornyi.driver.DriverProvider;
+import com.iamalexvybornyi.util.ElementInitializationHelper;
 import lombok.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -28,6 +29,8 @@ public class WebElementList<T extends AbstractWebElement> implements WebElementC
         List<WebElement> webElements = DriverProvider.getDriver().waitForElementsToBeVisible(locator);
         List<T> abstractWebElements = new ArrayList<>();
         webElements.forEach(webElement -> abstractWebElements.add(createElementInstance(locator, () -> webElement)));
+        ElementInitializationHelper elementInitializationHelper = new ElementInitializationHelper();
+        abstractWebElements.forEach(elementInitializationHelper::initPageElements);
         return abstractWebElements;
     }
 

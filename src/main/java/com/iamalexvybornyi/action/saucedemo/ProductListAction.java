@@ -1,15 +1,15 @@
-package com.iamalexvybornyi.action;
+package com.iamalexvybornyi.action.saucedemo;
 
 import com.iamalexvybornyi.core.element.Label;
 import com.iamalexvybornyi.model.ProductItem;
-import com.iamalexvybornyi.page.element.ProductItemElement;
+import com.iamalexvybornyi.page.saucedemo.element.ProductItemElement;
 import io.qameta.allure.Step;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.testng.Assert;
-import com.iamalexvybornyi.page.ProductListPage;
+import com.iamalexvybornyi.page.saucedemo.ProductListPage;
 
 import java.util.ArrayList;
 import java.util.List;

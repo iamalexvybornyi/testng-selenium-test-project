@@ -11,6 +11,9 @@ public class DriverProvider {
     private static final ThreadLocal<EnhancedWebDriver> driver = new ThreadLocal<>();
 
     public static EnhancedWebDriver getDriver() {
+        if (driver.get() == null) {
+            throw new RuntimeException("Driver cannot be obtained before the initialization!");
+        }
         return driver.get();
     }
 

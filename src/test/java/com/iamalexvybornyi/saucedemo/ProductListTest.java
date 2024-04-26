@@ -1,7 +1,7 @@
-package com.iamalexvybornyi;
+package com.iamalexvybornyi.saucedemo;
 
-import com.iamalexvybornyi.action.LoginAction;
-import com.iamalexvybornyi.action.ProductListAction;
+import com.iamalexvybornyi.action.saucedemo.LoginAction;
+import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.model.ProductItem;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class ProductListTest extends BaseTest {
+public class ProductListTest extends BaseSauceDemoTest {
 
     @Autowired
     private LoginAction loginAction;

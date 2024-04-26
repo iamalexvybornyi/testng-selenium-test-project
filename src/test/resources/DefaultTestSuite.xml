@@ -3,8 +3,10 @@
 <suite thread-count="10" parallel="tests" name="Suite">
     <test thread-count="10" parallel="methods" name="Test">
         <classes>
-            <class name="com.iamalexvybornyi.LoginTest"/>
-            <class name="com.iamalexvybornyi.ProductListTest"/>
+            <class name="com.iamalexvybornyi.saucedemo.LoginTest"/>
+            <class name="com.iamalexvybornyi.saucedemo.ProductListTest"/>
+            <class name="com.iamalexvybornyi.letskodeit.PracticeTest"/>
+            <class name="com.iamalexvybornyi.dhtmlx.DhtmlxTableSearchTest"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
