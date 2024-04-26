@@ -1,8 +1,6 @@
 package com.iamalexvybornyi.dhtmlx;
 
-import com.iamalexvybornyi.BaseTest;
 import com.iamalexvybornyi.action.dhtmlx.DhtmlxDemoTableAction;
-import com.iamalexvybornyi.driver.DriverProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;

@@ -1,7 +1,6 @@
 package com.iamalexvybornyi.page.dhtmlx.element;
 
 import com.iamalexvybornyi.core.element.AbstractWebElement;
-import com.iamalexvybornyi.core.element.Div;
 import com.iamalexvybornyi.core.element.IFrame;
 import com.iamalexvybornyi.core.element.collection.WebElementCollection;
 import com.iamalexvybornyi.core.element.collection.WebElementList;
