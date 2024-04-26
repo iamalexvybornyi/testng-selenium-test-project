@@ -2,7 +2,7 @@ app:
   browser:
     name: chrome
     remote: false
-    remoteServerAddress: http://localhost:4444
+    remoteServerAddress: http://localhost:4444/wd/hub
     resolution:
       width: 1920
       height: 1080

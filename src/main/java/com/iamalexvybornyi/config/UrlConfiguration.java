@@ -14,9 +14,34 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class UrlConfiguration {
     @NonNull
-    private String home;
+    private Saucedemo saucedemo;
     @NonNull
-    private String inventory;
+    private Dhtmlx dhtmlx;
     @NonNull
-    private String cart;
+    private Letskodeit letskodeit;
+
+    @Getter
+    @Setter
+    public static class Saucedemo {
+        @NonNull
+        private String home;
+        @NonNull
+        private String inventory;
+        @NonNull
+        private String cart;
+    }
+
+    @Getter
+    @Setter
+    public static class Dhtmlx {
+        @NonNull
+        private String home;
+    }
+
+    @Getter
+    @Setter
+    public static class Letskodeit {
+        @NonNull
+        private String practice;
+    }
 }

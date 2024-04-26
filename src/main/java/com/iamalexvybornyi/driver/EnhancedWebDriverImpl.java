@@ -63,7 +63,8 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
         }
     }
 
-    private URL getSeleniumGridAddress(BrowserConfigurationProperties browserConfigurationProperties) {
+    @NonNull
+    private URL getSeleniumGridAddress(@NonNull BrowserConfigurationProperties browserConfigurationProperties) {
         URL seleniumGridAddress = null;
         try {
             if (browserConfigurationProperties.getRemoteServerAddress() != null) {
@@ -144,21 +145,45 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     }
 
     @Override
+    @NonNull
     public WebElement waitForElementToBeVisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
-        log.debug("Waiting for element with locator '{}' to be visible", by.toString());
+        log.debug("Waiting for element with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
     }
 
     @Override
+    @NonNull
+    public WebElement waitForElementToBePresent(@NonNull By by) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        log.debug("Waiting for element with locator '{}' to be visible", by);
+        return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    @Override
+    @NonNull
     public List<WebElement> waitForElementsToBeVisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
-        log.debug("Waiting for all elements with locator '{}' to be visible", by.toString());
+        log.debug("Waiting for all elements with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(by)));
     }
 
     @Override
+    public boolean waitForElementToBeInvisible(@NonNull By by) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        log.debug("Waiting for element with locator '{}' to be invisible", by);
+        return webDriverWait.until(ExpectedConditions.invisibilityOf(driver.findElement(by)));
+    }
+
+    @Override
+    @NonNull
     public TakesScreenshot getTakesScreenshot() {
         return (TakesScreenshot)driver;
+    }
+
+    @Override
+    @NonNull
+    public WebDriver getOriginalWebDriver() {
+        return driver;
     }
 }

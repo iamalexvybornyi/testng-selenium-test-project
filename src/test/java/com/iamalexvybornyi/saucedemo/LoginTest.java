@@ -1,14 +1,14 @@
-package com.iamalexvybornyi;
+package com.iamalexvybornyi.saucedemo;
 
-import com.iamalexvybornyi.action.LoginAction;
-import com.iamalexvybornyi.action.ProductListAction;
+import com.iamalexvybornyi.action.saucedemo.LoginAction;
+import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Slf4j
-public class LoginTest extends BaseTest {
+public class LoginTest extends BaseSauceDemoTest {
 
     @Autowired
     private LoginAction loginAction;

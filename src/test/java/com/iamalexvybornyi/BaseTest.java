@@ -41,7 +41,6 @@ public class BaseTest extends AbstractTestNGSpringContextTests {
         MDC.put(GlobalKeys.TEST_ID.getKey(), String.format("%s-%s", method.getName(), Instant.now().toEpochMilli()));
         DriverProvider.setDriver(new EnhancedWebDriverImpl(browserConfigurationProperties));
         DriverProvider.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        DriverProvider.getDriver().get(urlConfiguration.getHome());
     }
 
     @AfterMethod(alwaysRun = true)
