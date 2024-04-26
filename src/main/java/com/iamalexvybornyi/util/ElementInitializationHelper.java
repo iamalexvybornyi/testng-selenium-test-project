@@ -62,6 +62,7 @@ public class ElementInitializationHelper {
         });
     }
 
+    @SuppressWarnings("unchecked")
     private <T extends AbstractWebElement> void initElementCollections(@NonNull Object uiComponent,
                                                                        @NonNull List<Field> elementsToInit) {
         elementsToInit.forEach(element -> {

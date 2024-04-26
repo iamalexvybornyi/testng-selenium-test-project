@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.lang.Nullable;
 
 import java.util.function.Supplier;
 
