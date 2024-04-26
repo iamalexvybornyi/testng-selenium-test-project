@@ -13,22 +13,12 @@ import java.util.function.Supplier;
 public abstract class AbstractWebElement {
     @NonNull
     protected final By locator;
-    @Nullable
-    protected final AbstractWebElement parent;
     @NonNull
     protected final Supplier<WebElement> webElementSupplier;
-
-    public AbstractWebElement(@NonNull By locator, @Nullable AbstractWebElement parent) {
-        this.locator = locator;
-        this.webElementSupplier = parent != null ? () -> parent.getRootWebElement().findElement(locator) :
-                () -> DriverProvider.getDriver().waitForElementToBeVisible(this.locator);
-        this.parent = parent;
-    }
 
     public AbstractWebElement(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         this.locator = locator;
         this.webElementSupplier = webElementSupplier;
-        this.parent = null;
     }
 
     @NonNull

@@ -6,15 +6,18 @@ import com.iamalexvybornyi.core.element.collection.WebElementList;
 import com.iamalexvybornyi.core.element.locator.LocatorType;
 import com.iamalexvybornyi.core.element.locator.PageElement;
 import com.iamalexvybornyi.core.element.locator.PageElementCollection;
+import com.iamalexvybornyi.driver.DriverProvider;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 @AllArgsConstructor
@@ -83,12 +86,15 @@ public class ElementInitializationHelper {
                                         @NonNull Class<T> classType) {
         final Constructor<T> constructor;
         try {
-            constructor = classType.getConstructor(By.class, AbstractWebElement.class);
+            constructor = classType.getConstructor(By.class, Supplier.class);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         try {
-            return constructor.newInstance(locator, parent);
+            final Supplier<WebElement> webElementSupplier = parent != null ?
+                    () -> parent.getRootWebElement().findElement(locator) :
+                    () -> DriverProvider.getDriver().waitForElementToBeVisible(locator);
+            return constructor.newInstance(locator, webElementSupplier);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }

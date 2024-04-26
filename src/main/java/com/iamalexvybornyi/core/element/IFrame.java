@@ -8,10 +8,6 @@ import java.util.function.Supplier;
 
 public class IFrame extends AbstractWebElement {
 
-    public IFrame(@NonNull By locator, AbstractWebElement parent) {
-        super(locator, parent);
-    }
-
     public IFrame(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
     }

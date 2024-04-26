@@ -13,10 +13,6 @@ public class Image extends AbstractWebElement implements HasImageAttributes {
         super(locator, webElementSupplier);
     }
 
-    public Image(@NonNull By locator, @Nullable AbstractWebElement parent) {
-        super(locator, parent);
-    }
-
     @Override
     @Nullable
     public String getImageAlt() {

@@ -6,7 +6,6 @@ import com.iamalexvybornyi.core.element.Label;
 import com.iamalexvybornyi.core.element.locator.LocatorType;
 import com.iamalexvybornyi.core.element.locator.PageElement;
 import lombok.Getter;
-import lombok.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -23,10 +22,6 @@ public class CommonHeaderElement extends AbstractWebElement {
 
     public CommonHeaderElement(By locator, Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
-    }
-
-    public CommonHeaderElement(@NonNull By locator, AbstractWebElement parent) {
-        super(locator, parent);
     }
 
 }
