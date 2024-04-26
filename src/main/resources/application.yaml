@@ -7,6 +7,10 @@ app:
       width: 1920
       height: 1080
     headless: false
+    timeout:
+      implicit: 10s
+      explicit: 10s
+      polling: 500ms
 spring:
   profiles:
     active: prod

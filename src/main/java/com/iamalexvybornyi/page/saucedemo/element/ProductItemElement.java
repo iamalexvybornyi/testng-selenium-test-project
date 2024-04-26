@@ -30,10 +30,6 @@ public class ProductItemElement extends AbstractWebElement {
     @PageElement(locatorType = LocatorType.XPATH, locator = ".//button[contains(@id, 'remove-sauce-labs')]", searchWithinParent = true)
     private Button removeFromCartButton;
 
-    public ProductItemElement(@NonNull By locator) {
-        super(locator);
-    }
-
     public ProductItemElement(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
     }
@@ -42,7 +38,4 @@ public class ProductItemElement extends AbstractWebElement {
         super(locator, parent);
     }
 
-    public ProductItemElement(@NonNull By locator, @Nullable AbstractWebElement parent, @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
-    }
 }

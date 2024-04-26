@@ -17,6 +17,7 @@ public interface EnhancedWebDriver extends WebDriver {
     @NonNull
     List<WebElement> waitForElementsToBeVisible(@NonNull By by);
     boolean waitForElementToBeInvisible(@NonNull By by);
+    WebDriver waitForFrameToBeAvailableAndSwitchToIt(@NonNull By by);
     @NonNull
     TakesScreenshot getTakesScreenshot();
     @NonNull

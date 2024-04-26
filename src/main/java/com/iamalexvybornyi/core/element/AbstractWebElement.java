@@ -18,12 +18,6 @@ public abstract class AbstractWebElement {
     @NonNull
     protected final Supplier<WebElement> webElementSupplier;
 
-    public AbstractWebElement(@NonNull By locator) {
-        this.locator = locator;
-        this.webElementSupplier = () -> DriverProvider.getDriver().waitForElementToBeVisible(this.locator);
-        this.parent = null;
-    }
-
     public AbstractWebElement(@NonNull By locator, @Nullable AbstractWebElement parent) {
         this.locator = locator;
         this.webElementSupplier = parent != null ? () -> parent.getRootWebElement().findElement(locator) :
@@ -35,13 +29,6 @@ public abstract class AbstractWebElement {
         this.locator = locator;
         this.webElementSupplier = webElementSupplier;
         this.parent = null;
-    }
-
-    public AbstractWebElement(@NonNull By locator, @Nullable AbstractWebElement parent,
-                              @NonNull Supplier<WebElement> webElementSupplier) {
-        this.locator = locator;
-        this.webElementSupplier = webElementSupplier;
-        this.parent = parent;
     }
 
     @NonNull

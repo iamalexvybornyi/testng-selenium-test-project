@@ -1,6 +1,7 @@
 package com.iamalexvybornyi.driver;
 
 import com.iamalexvybornyi.config.BrowserConfigurationProperties;
+import com.iamalexvybornyi.core.exception.UnsupportedBrowserTypeException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
@@ -14,8 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 
@@ -23,14 +22,16 @@ import java.util.Set;
 public class EnhancedWebDriverImpl implements EnhancedWebDriver {
 
     private final WebDriver driver;
+    private final BrowserConfigurationProperties browserConfigurationProperties;
 
     public EnhancedWebDriverImpl(BrowserConfigurationProperties browserConfigurationProperties) {
-        driver = createDriver(browserConfigurationProperties);
+        this.browserConfigurationProperties = browserConfigurationProperties;
+        driver = createDriver();
         driver.manage().window().setSize(new Dimension(browserConfigurationProperties.getResolution().getWidth(),
                 browserConfigurationProperties.getResolution().getHeight()));
     }
 
-    private WebDriver createDriver(BrowserConfigurationProperties browserConfigurationProperties) {
+    private WebDriver createDriver() {
         log.info("Creating '{}' driver", browserConfigurationProperties.getName());
         switch (browserConfigurationProperties.getName()) {
             case "chrome" -> {
@@ -59,7 +60,7 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
                     return new FirefoxDriver(firefoxOptions);
                 }
             }
-            default -> throw new IllegalStateException("Unexpected value: " + browserConfigurationProperties.getName());
+            default -> throw new UnsupportedBrowserTypeException(browserConfigurationProperties.getName());
         }
     }
 
@@ -147,7 +148,8 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     @Override
     @NonNull
     public WebElement waitForElementToBeVisible(@NonNull By by) {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
+                .getExplicit());
         log.debug("Waiting for element with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
     }
@@ -155,7 +157,8 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     @Override
     @NonNull
     public WebElement waitForElementToBePresent(@NonNull By by) {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
+                .getExplicit());
         log.debug("Waiting for element with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
@@ -163,16 +166,25 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     @Override
     @NonNull
     public List<WebElement> waitForElementsToBeVisible(@NonNull By by) {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
+                .getExplicit());
         log.debug("Waiting for all elements with locator '{}' to be visible", by);
         return webDriverWait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(by)));
     }
 
     @Override
     public boolean waitForElementToBeInvisible(@NonNull By by) {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
+        WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
+                .getExplicit());
         log.debug("Waiting for element with locator '{}' to be invisible", by);
         return webDriverWait.until(ExpectedConditions.invisibilityOf(driver.findElement(by)));
+    }
+
+    @Override
+    public WebDriver waitForFrameToBeAvailableAndSwitchToIt(@NonNull By by) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
+                        .getExplicit());
+        return webDriverWait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(driver.findElement(by)));
     }
 
     @Override

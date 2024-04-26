@@ -8,9 +8,6 @@ import org.springframework.lang.Nullable;
 import java.util.function.Supplier;
 
 public class Input extends AbstractWebElement implements CanInput, HasText {
-    public Input(@NonNull By locator) {
-        super(locator);
-    }
 
     public Input(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
@@ -18,11 +15,6 @@ public class Input extends AbstractWebElement implements CanInput, HasText {
 
     public Input(@NonNull By locator, @Nullable AbstractWebElement parent) {
         super(locator, parent);
-    }
-
-    public Input(@NonNull By locator, @Nullable AbstractWebElement parent,
-                 @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
     }
 
     @Override

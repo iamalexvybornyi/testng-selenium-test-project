@@ -1,5 +1,6 @@
 package com.iamalexvybornyi.action.letskodeit;
 
+import com.iamalexvybornyi.config.BrowserConfigurationProperties;
 import com.iamalexvybornyi.driver.DriverProvider;
 import com.iamalexvybornyi.page.letskodeit.PracticePage;
 import com.iamalexvybornyi.page.letskodeit.element.CourseItem;
@@ -25,6 +26,8 @@ import java.util.List;
 public class PracticePageCourseSearchAction {
 
     @NonNull
+    private final BrowserConfigurationProperties browserConfigurationProperties;
+    @NonNull
     private final PracticePage practicePage;
 
     @Step("Scroll to course")
@@ -32,8 +35,8 @@ public class PracticePageCourseSearchAction {
         log.info("Switching to courses frame");
         practicePage.getCoursesFrame().switchToFrame();
         FluentWait<WebDriver> fluentWait = new FluentWait<>(DriverProvider.getDriver().getOriginalWebDriver())
-                .withTimeout(Duration.of(10, ChronoUnit.SECONDS))
-                .pollingEvery(Duration.of(500, ChronoUnit.MILLIS))
+                .withTimeout(browserConfigurationProperties.getTimeout().getExplicit())
+                .pollingEvery(browserConfigurationProperties.getTimeout().getPolling())
                 .ignoring(TimeoutException.class);
         fluentWait.until((driver) -> {
             final Actions frameActions = new Actions(driver);

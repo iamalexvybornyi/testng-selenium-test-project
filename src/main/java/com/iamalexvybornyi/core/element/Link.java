@@ -8,9 +8,6 @@ import org.springframework.lang.Nullable;
 import java.util.function.Supplier;
 
 public class Link extends AbstractWebElement implements Clickable, HasText, HasLinkAttribute {
-    public Link(@NonNull By locator) {
-        super(locator);
-    }
 
     public Link(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
@@ -18,11 +15,6 @@ public class Link extends AbstractWebElement implements Clickable, HasText, HasL
 
     public Link(@NonNull By locator, @Nullable AbstractWebElement parent) {
         super(locator, parent);
-    }
-
-    public Link(@NonNull By locator, @Nullable AbstractWebElement parent,
-                  @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
     }
 
     @Override

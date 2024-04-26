@@ -9,21 +9,12 @@ import java.util.function.Supplier;
 
 public class Image extends AbstractWebElement implements HasImageAttributes {
 
-    public Image(@NonNull By locator) {
-        super(locator);
-    }
-
     public Image(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
     }
 
     public Image(@NonNull By locator, @Nullable AbstractWebElement parent) {
         super(locator, parent);
-    }
-
-    public Image(@NonNull By locator, @Nullable AbstractWebElement parent,
-                 @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
     }
 
     @Override

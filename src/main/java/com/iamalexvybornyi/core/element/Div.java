@@ -8,9 +8,6 @@ import org.springframework.lang.Nullable;
 import java.util.function.Supplier;
 
 public class Div extends AbstractWebElement implements HasText {
-    public Div(@NonNull By locator) {
-        super(locator);
-    }
 
     public Div(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
@@ -18,11 +15,6 @@ public class Div extends AbstractWebElement implements HasText {
 
     public Div(@NonNull By locator, @Nullable AbstractWebElement parent) {
         super(locator, parent);
-    }
-
-    public Div(@NonNull By locator, @Nullable AbstractWebElement parent,
-               @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
     }
 
     @Override

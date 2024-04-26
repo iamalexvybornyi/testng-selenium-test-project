@@ -21,10 +21,6 @@ public class CommonHeaderElement extends AbstractWebElement {
     @PageElement(locatorType = LocatorType.XPATH, locator = "//span[@class='shopping_cart_badge']")
     private Label shoppingCartBadge;
 
-    public CommonHeaderElement(By locator) {
-        super(locator);
-    }
-
     public CommonHeaderElement(By locator, Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
     }
@@ -33,7 +29,4 @@ public class CommonHeaderElement extends AbstractWebElement {
         super(locator, parent);
     }
 
-    public CommonHeaderElement(@NonNull By locator, AbstractWebElement parent, @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
-    }
 }

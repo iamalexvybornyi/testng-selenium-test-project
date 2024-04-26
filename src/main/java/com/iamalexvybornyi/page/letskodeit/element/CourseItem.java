@@ -21,10 +21,6 @@ public class CourseItem extends AbstractWebElement {
     @PageElement(locatorType = LocatorType.XPATH, locator = ".//span[@class='zen-course-price dynamic-text']", searchWithinParent = true)
     private Label price;
 
-    public CourseItem(@NonNull By locator) {
-        super(locator);
-    }
-
     public CourseItem(@NonNull By locator, @NonNull Supplier<WebElement> webElementSupplier) {
         super(locator, webElementSupplier);
     }
@@ -33,8 +29,4 @@ public class CourseItem extends AbstractWebElement {
         super(locator, parent);
     }
 
-    public CourseItem(@NonNull By locator, @Nullable AbstractWebElement parent,
-                      @NonNull Supplier<WebElement> webElementSupplier) {
-        super(locator, parent, webElementSupplier);
-    }
 }
