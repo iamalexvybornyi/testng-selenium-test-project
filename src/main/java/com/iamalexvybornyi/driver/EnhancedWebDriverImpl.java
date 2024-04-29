@@ -2,20 +2,18 @@ package com.iamalexvybornyi.driver;
 
 import com.iamalexvybornyi.config.BrowserConfigurationProperties;
 import com.iamalexvybornyi.core.exception.UnsupportedBrowserTypeException;
+import com.iamalexvybornyi.driver.factory.ChromeDriverFactory;
+import com.iamalexvybornyi.driver.factory.FirefoxDriverFactory;
+import com.iamalexvybornyi.driver.factory.WebDriverFactory;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -23,6 +21,10 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
 
     private final WebDriver driver;
     private final BrowserConfigurationProperties browserConfigurationProperties;
+    private final Map<String, WebDriverFactory> webDriverFactories = Map.ofEntries(
+            Map.entry("chrome", new ChromeDriverFactory()),
+            Map.entry("firefox", new FirefoxDriverFactory())
+    );
 
     public EnhancedWebDriverImpl(BrowserConfigurationProperties browserConfigurationProperties) {
         this.browserConfigurationProperties = browserConfigurationProperties;
@@ -32,52 +34,11 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     }
 
     private WebDriver createDriver() {
-        log.info("Creating '{}' driver", browserConfigurationProperties.getName());
-        switch (browserConfigurationProperties.getName()) {
-            case "chrome" -> {
-                ChromeOptions chromeOptions = new ChromeOptions();
-                if (browserConfigurationProperties.getHeadless()) {
-                    chromeOptions.addArguments("--headless");
-                }
-                if (browserConfigurationProperties.getRemote()) {
-                    log.info("Using the remote server '{}' for creating a driver",
-                            browserConfigurationProperties.getRemoteServerAddress());
-                    return new RemoteWebDriver(getSeleniumGridAddress(browserConfigurationProperties), chromeOptions);
-                } else {
-                    return new ChromeDriver(chromeOptions);
-                }
-            }
-            case "firefox" -> {
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
-                if (browserConfigurationProperties.getHeadless()) {
-                    firefoxOptions.addArguments("--headless");
-                }
-                if (browserConfigurationProperties.getRemote()) {
-                    log.info("Using the remote server '{}' for creating a driver",
-                            browserConfigurationProperties.getRemoteServerAddress());
-                    return new RemoteWebDriver(getSeleniumGridAddress(browserConfigurationProperties), firefoxOptions);
-                } else {
-                    return new FirefoxDriver(firefoxOptions);
-                }
-            }
-            default -> throw new UnsupportedBrowserTypeException(browserConfigurationProperties.getName());
-        }
-    }
-
-    @NonNull
-    private URL getSeleniumGridAddress(@NonNull BrowserConfigurationProperties browserConfigurationProperties) {
-        URL seleniumGridAddress = null;
-        try {
-            if (browserConfigurationProperties.getRemoteServerAddress() != null) {
-                seleniumGridAddress = new URL(browserConfigurationProperties.getRemoteServerAddress());
-            } else {
-                throw new RuntimeException("Remote server address can't be null!");
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return seleniumGridAddress;
+        final String browserName = browserConfigurationProperties.getName();
+        log.info("Creating '{}' driver", browserName);
+        WebDriverFactory webDriverFactory = Optional.ofNullable(webDriverFactories.get(browserName))
+                .orElseThrow(() -> new UnsupportedBrowserTypeException(browserName));
+        return webDriverFactory.createDriver(browserConfigurationProperties);
     }
 
     @Override
@@ -190,7 +151,7 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     @Override
     @NonNull
     public TakesScreenshot getTakesScreenshot() {
-        return (TakesScreenshot)driver;
+        return (TakesScreenshot) driver;
     }
 
     @Override
