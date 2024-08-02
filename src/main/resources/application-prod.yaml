@@ -1,10 +1,10 @@
 app:
   url:
     saucedemo:
-      home: https://www.saucedemo.com/
+      home: https://www.saucedemo.com
       inventory: https://www.saucedemo.com/inventory.html
       cart: https://www.saucedemo.com/cart.html
     dhtmlx:
-      home: https://dhtmlx.com/docs/products/dhtmlxGrid/
+      home: https://dhtmlx.com/docs/products/dhtmlxGrid
     letskodeit:
       practice: https://www.letskodeit.com/practice

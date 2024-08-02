@@ -1,4 +1,4 @@
-package com.iamalexvybornyi.page.saucedemo;
+package com.iamalexvybornyi.page.saucedemo.login;
 
 import com.iamalexvybornyi.core.element.Button;
 import com.iamalexvybornyi.core.element.Input;
