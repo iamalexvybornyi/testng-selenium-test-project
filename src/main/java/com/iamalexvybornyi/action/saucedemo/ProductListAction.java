@@ -2,14 +2,14 @@ package com.iamalexvybornyi.action.saucedemo;
 
 import com.iamalexvybornyi.core.element.Label;
 import com.iamalexvybornyi.model.ProductItem;
-import com.iamalexvybornyi.page.saucedemo.element.ProductItemElement;
+import com.iamalexvybornyi.page.saucedemo.productlist.element.ProductItemElement;
 import io.qameta.allure.Step;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.testng.Assert;
-import com.iamalexvybornyi.page.saucedemo.ProductListPage;
+import com.iamalexvybornyi.page.saucedemo.productlist.ProductListPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +31,15 @@ public class ProductListAction {
     @Step("Verify expected product items are displayed")
     public void verifyExpectedProductItemsAreDisplayed(@NonNull List<ProductItem> expectedProductItems) {
         log.info("Getting product list from the page");
-        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemList().getElements();
+        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemCollection().getElements();
         final List<ProductItem> actualProductItems = new ArrayList<>();
         productItemsFromPage.forEach(productItem -> actualProductItems.add(
                 new ProductItem(
                         productItem.getTitle().getText(),
                         productItem.getDescription().getText(),
                         productItem.getPrice().getText(),
-                        productItem.getImage().getImageAlt()
+                        productItem.getImage().getImageAlt(),
+                        productItem.getImage().getImageSource()
                 )));
         log.info("Verifying that the product list from the page {} is equal to {}", actualProductItems,
                 expectedProductItems);
@@ -79,10 +80,42 @@ public class ProductListAction {
         foundProductItem.getAddToCartButton().click();
     }
 
+    @Step("Sort product list by option")
+    public void sortProductListByOption(String optionName) {
+        log.info("Sorting product list by '{}'", optionName);
+        log.debug("Selecting option '{}'", optionName);
+        productListPage.getProductListSortingDropdown().selectByVisibleText(optionName);
+        log.debug("Getting the selected option");
+        final String selectedOptionText =
+                productListPage.getProductListSortingDropdown().getFirstSelectedOption().getText();
+        log.info("Verifying currently selected option text '{}' matches the expected '{}'", selectedOptionText,
+                optionName);
+        Assert.assertEquals(selectedOptionText, optionName,
+                "currently selected option text does not match the expected");
+    }
+
+    @Step("Click on cart badge")
+    public void clickOnCartBadge() {
+        log.info("Clicking on cart badge");
+        productListPage.getCommonHeaderElement().getShoppingCartBadge().click();
+    }
+
+    @Step("Click sidebar menu button")
+    public void clickSidebarMenuButton() {
+        log.info("Clicking sidebar menu button");
+        productListPage.getCommonHeaderElement().getMenuContainer().getMenuButton().click();
+    }
+
+    @Step("Click logout link")
+    public void clickLogoutLink() {
+        log.info("Clicking logout link");
+        productListPage.getCommonHeaderElement().getMenuContainer().getLogoutLink().click();
+    }
+
     @NonNull
     private ProductItemElement findProductOnPage(@NonNull String productTitle) {
         log.info("Searching for the product with title '{}' on the page", productTitle);
-        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemList().getElements();
+        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemCollection().getElements();
         return productItemsFromPage.stream().filter(productItem ->
                         productItem.getTitle().getText().equals(productTitle))
                 .toList().stream().findFirst().orElseThrow();
@@ -91,7 +124,7 @@ public class ProductListAction {
     @NonNull
     private ProductItemElement findProductOnPage(int productIndex) {
         log.info("Searching for the product with index '{}' on the page", productIndex);
-        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemList().getElements();
+        final List<ProductItemElement> productItemsFromPage = productListPage.getProductItemCollection().getElements();
         return productItemsFromPage.get(productIndex);
     }
 }

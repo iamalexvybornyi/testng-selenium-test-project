@@ -15,7 +15,7 @@ public class DhtmlxTableSearchTest extends BaseDhtmlxTest {
     private DhtmlxDemoTableAction dhtmlxDemoTableAction;
 
     @Test
-    public void findTheGreenMileBookTestWithPages() {
+    public void findTheGreenMileBookTestWithPagesTest() {
         final Duration pauseInBetweenScrolls = Duration.of(2, ChronoUnit.SECONDS);
         dhtmlxDemoTableAction.scrollToDhtmlxDemoTable(pauseInBetweenScrolls);
         dhtmlxDemoTableAction.verifyTheAuthorOfTheBook("The Green Mile", "Stephen King");

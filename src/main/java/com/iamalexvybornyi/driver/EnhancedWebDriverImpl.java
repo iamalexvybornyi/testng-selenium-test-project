@@ -120,8 +120,16 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     public WebElement waitForElementToBePresent(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
                 .getExplicit());
-        log.debug("Waiting for element with locator '{}' to be visible", by);
+        log.debug("Waiting for element with locator '{}' to be present", by);
         return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    @Override
+    public boolean waitForElementNotToBePresent(@NonNull By by) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
+                .getExplicit());
+        log.debug("Waiting for element with locator '{}' not to be present", by);
+        return webDriverWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(by)));
     }
 
     @Override
@@ -129,8 +137,14 @@ public class EnhancedWebDriverImpl implements EnhancedWebDriver {
     public List<WebElement> waitForElementsToBeVisible(@NonNull By by) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, browserConfigurationProperties.getTimeout()
                 .getExplicit());
-        log.debug("Waiting for all elements with locator '{}' to be visible", by);
-        return webDriverWait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(by)));
+        log.debug("Searching for all elements with locator '{}'", by);
+        final List<WebElement> foundWebElements = driver.findElements(by);
+        log.debug("Found {} elements", foundWebElements.size());
+        if (!foundWebElements.isEmpty()) {
+            log.debug("Waiting for all elements with locator '{}' to be visible", by);
+            webDriverWait.until(ExpectedConditions.visibilityOfAllElements(foundWebElements));
+        }
+        return foundWebElements;
     }
 
     @Override

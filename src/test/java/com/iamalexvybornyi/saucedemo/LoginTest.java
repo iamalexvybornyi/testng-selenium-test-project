@@ -15,15 +15,15 @@ public class LoginTest extends BaseSauceDemoTest {
     @Autowired
     private ProductListAction productListAction;
 
-    @Test
-    public void loginWithValidUserTest() {
-        loginAction.enterUsername("standard_user");
-        loginAction.enterPassword("secret_sauce");
+    @Test(dataProvider = "provideValidUserData")
+    public void loginWithValidUserTest(String username, String password) {
+        loginAction.enterUsername(username);
+        loginAction.enterPassword(password);
         loginAction.clickLoginButton();
         productListAction.verifyProductListIsDisplayed();
     }
 
-    @Test(dataProvider = "provideUserData")
+    @Test(dataProvider = "provideInvalidUserData")
     public void loginWithInvalidUserTest(String username, String password, String expectedErrorMessage) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
@@ -32,10 +32,19 @@ public class LoginTest extends BaseSauceDemoTest {
     }
 
     @DataProvider
-    public Object[][] provideUserData() {
+    private Object[][] provideInvalidUserData() {
         return new Object[][] {
                 {"standard_user", "invalid_secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
                 {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
+        };
+    }
+
+    @DataProvider
+    private Object[][] provideValidUserData() {
+        return new Object[][] {
+                {"standard_user", "secret_sauce"},
+                {"problem_user", "secret_sauce"},
+                {"performance_glitch_user", "secret_sauce"}
         };
     }
 }
