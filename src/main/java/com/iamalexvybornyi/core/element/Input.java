@@ -14,6 +14,7 @@ public class Input extends AbstractWebElement implements CanInput, HasText {
 
     @Override
     public void enterText(@NonNull String textToEnter) {
+        getRootWebElement().clear();
         getRootWebElement().sendKeys(textToEnter);
     }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="3" parallel="tests" name="Sauce Labs Demo Suite">
+    <test thread-count="5" parallel="methods" name="Sauce Labs Demo E2E Tests">
+        <classes>
+            <class name="com.iamalexvybornyi.saucedemo.LoginTest"/>
+            <class name="com.iamalexvybornyi.saucedemo.ProductListTest"/>
+            <class name="com.iamalexvybornyi.saucedemo.ProductListCartTest"/>
+            <class name="com.iamalexvybornyi.saucedemo.CartTest"/>
+            <class name="com.iamalexvybornyi.saucedemo.CheckoutTest"/>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

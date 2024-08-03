@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 
 @Getter
 public class CommonHeaderElement extends AbstractWebElement {
-    @PageElement(locatorType = LocatorType.XPATH, locator = "//div[@id='menu_button_container']//div[@class='bm-burger-button']")
-    private Button menuButton;
+    @PageElement(locatorType = LocatorType.XPATH, locator = "//div[@id='menu_button_container']")
+    private MenuContainer menuContainer;
     @PageElement(locatorType = LocatorType.XPATH, locator = "//a[@class='shopping_cart_link']")
     private Button shoppingCartLink;
     @PageElement(locatorType = LocatorType.XPATH, locator = "//span[@class='shopping_cart_badge']")

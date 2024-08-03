@@ -40,4 +40,37 @@ public class CartAction {
                 "Cart items from the page do not match the expected ones!");
     }
 
+    @Step("Remove product from list by title")
+    public void removeProductFromCartListByTitle(@NonNull String productTitle) {
+        log.info("Getting product items from the cart");
+        List<CartItemElement> cartItemsFromPage = cartPage.getCartItemCollection().getElements();
+
+        log.info("Removing product '{}' from the cart", productTitle);
+        for (CartItemElement cartItemElement : cartItemsFromPage) {
+            if (cartItemElement.getProductItemElement().getTitle().getText().equals(productTitle)) {
+                cartItemElement.getProductItemElement().getRemoveFromCartButton().click();
+                break;
+            }
+        }
+
+        log.info("Verifying product '{}' has been removed from the cart", productTitle);
+        cartItemsFromPage = cartPage.getCartItemCollection().getElements();
+        Assert.assertEquals(
+                cartItemsFromPage.stream().filter(cartItemElement ->
+                cartItemElement.getProductItemElement().getTitle().getText().equals(productTitle)).toList().size(), 0,
+        "The expected product is still in the cart!");
+    }
+
+    @Step("Click Continue Shopping button")
+    public void clickContinueShoppingButton() {
+        log.info("Clicking 'Continue Shopping' button");
+        cartPage.getContinueShoppingButton().click();
+    }
+
+    @Step("Click Checkout button")
+    public void clickCheckoutButton() {
+        log.info("Clicking 'Checkout' button");
+        cartPage.getCheckoutButton().click();
+    }
+
 }

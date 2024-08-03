@@ -1,10 +1,10 @@
 package com.iamalexvybornyi.saucedemo;
 
 import com.iamalexvybornyi.action.saucedemo.CartAction;
+import com.iamalexvybornyi.action.saucedemo.CommonAction;
 import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.model.CartProductItem;
-import com.iamalexvybornyi.model.ProductItem;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
 public class CartTest extends BaseSauceDemoTest {
+
+    private static final String SAUCE_LABS_BACKPACK_PRODUCT = "Sauce Labs Backpack";
+    private static final String SAUCE_LABS_BIKE_LIGHT_PRODUCT = "Sauce Labs Bike Light";
 
     @Autowired
     private LoginAction loginAction;
@@ -24,6 +26,8 @@ public class CartTest extends BaseSauceDemoTest {
     private ProductListAction productListAction;
     @Autowired
     private CartAction cartAction;
+    @Autowired
+    private CommonAction commonAction;
 
     @BeforeMethod
     private void loginToWebsite() {
@@ -35,39 +39,56 @@ public class CartTest extends BaseSauceDemoTest {
 
     @Test
     public void verifyAddedItemsAreDisplayedProperlyOnCartPageTest() {
-        productListAction.addProductFromListToCart("Sauce Labs Backpack");
-        productListAction.addProductFromListToCart("Sauce Labs Bike Light");
-        productListAction.clickOnCartBadge();
+        addProductsToCartAndGoToCartPage();
         cartAction.verifyExpectedProductsAreDisplayed(getExpectedProductItems());
     }
 
     @Test
     public void verifyAddedItemsCanBeRemovedFromCartPageTest() {
-        /*
-            1. Add products to cart
-            2. Go to cart page
-            3. Check that the list of products contains the added products in the same order they were added
-            4. Remove one product, verify the other ones are still in cart
-            5. Remove all remaining products, verify that cart is empty
-         */
+        addProductsToCartAndGoToCartPage();
+        final List<CartProductItem> expectedProductItemsFromCart = getExpectedProductItems();
+        cartAction.verifyExpectedProductsAreDisplayed(expectedProductItemsFromCart);
+        removeProductFromCartAndVerifyTheRemainingItems(SAUCE_LABS_BACKPACK_PRODUCT, expectedProductItemsFromCart);
+        removeProductFromCartAndVerifyTheRemainingItems(SAUCE_LABS_BIKE_LIGHT_PRODUCT, expectedProductItemsFromCart);
     }
 
     @Test
     public void verifyUserCanContinueShoppingFromCartPageTest() {
-        /*
-            1. Add products to cart
-            2. Go to cart page
-            3. Check that the list of products contains the added products in the same order they were added
-            4. Click Continue Shopping button, verify that user is returned to the product list page and the number
-            of products in the cart is still the same
-         */
+        addProductsToCartAndGoToCartPage();
+        cartAction.verifyExpectedProductsAreDisplayed(getExpectedProductItems());
+        cartAction.clickContinueShoppingButton();
+        commonAction.verifyTheActualUrlMatchesTheExpected(urlConfiguration.getSaucedemo().getInventory());
+        productListAction.verifyTheNumberOfProductsInCart(2);
     }
 
     @Test
     public void verifyProductsAreStillInCartAfterLogoutAndLoginTest() {
-
+        addProductsToCartAndGoToCartPage();
+        cartAction.verifyExpectedProductsAreDisplayed(getExpectedProductItems());
+        cartAction.clickContinueShoppingButton();
+        productListAction.clickSidebarMenuButton();
+        productListAction.clickLogoutLink();
+        loginToWebsite();
+        productListAction.verifyTheNumberOfProductsInCart(2);
+        productListAction.clickOnCartBadge();
+        cartAction.verifyExpectedProductsAreDisplayed(getExpectedProductItems());
     }
 
+    private void addProductsToCartAndGoToCartPage() {
+        productListAction.addProductFromListToCart(SAUCE_LABS_BACKPACK_PRODUCT);
+        productListAction.addProductFromListToCart(SAUCE_LABS_BIKE_LIGHT_PRODUCT);
+        productListAction.clickOnCartBadge();
+    }
+
+    private void removeProductFromCartAndVerifyTheRemainingItems(@NonNull String productTitleToRemove,
+                                                                 @NonNull List<CartProductItem> expectedProductItemsFromCart) {
+        cartAction.removeProductFromCartListByTitle(productTitleToRemove);
+        expectedProductItemsFromCart.removeIf(cartProductItem ->
+                cartProductItem.title().equals(productTitleToRemove));
+        cartAction.verifyExpectedProductsAreDisplayed(expectedProductItemsFromCart);
+    }
+
+    @NonNull
     private List<CartProductItem> getExpectedProductItems() {
         return new ArrayList<>() {{
             add(new CartProductItem("Sauce Labs Backpack",

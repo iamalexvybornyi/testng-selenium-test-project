@@ -100,6 +100,18 @@ public class ProductListAction {
         productListPage.getCommonHeaderElement().getShoppingCartBadge().click();
     }
 
+    @Step("Click sidebar menu button")
+    public void clickSidebarMenuButton() {
+        log.info("Clicking sidebar menu button");
+        productListPage.getCommonHeaderElement().getMenuContainer().getMenuButton().click();
+    }
+
+    @Step("Click logout link")
+    public void clickLogoutLink() {
+        log.info("Clicking logout link");
+        productListPage.getCommonHeaderElement().getMenuContainer().getLogoutLink().click();
+    }
+
     @NonNull
     private ProductItemElement findProductOnPage(@NonNull String productTitle) {
         log.info("Searching for the product with title '{}' on the page", productTitle);

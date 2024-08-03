@@ -14,6 +14,7 @@ public interface EnhancedWebDriver extends WebDriver {
     WebElement waitForElementToBeVisible(@NonNull By by);
     @NonNull
     WebElement waitForElementToBePresent(@NonNull By by);
+    boolean waitForElementNotToBePresent(@NonNull By by);
     @NonNull
     List<WebElement> waitForElementsToBeVisible(@NonNull By by);
     boolean waitForElementToBeInvisible(@NonNull By by);
