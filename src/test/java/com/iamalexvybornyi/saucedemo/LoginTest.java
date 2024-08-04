@@ -5,7 +5,6 @@ import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.dataprovider.saucedemo.UserDataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Slf4j
