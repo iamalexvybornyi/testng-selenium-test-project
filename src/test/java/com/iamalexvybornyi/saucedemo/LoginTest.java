@@ -2,6 +2,7 @@ package com.iamalexvybornyi.saucedemo;
 
 import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
+import com.iamalexvybornyi.dataprovider.saucedemo.UserDataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
@@ -15,7 +16,7 @@ public class LoginTest extends BaseSauceDemoTest {
     @Autowired
     private ProductListAction productListAction;
 
-    @Test(dataProvider = "provideValidUserData")
+    @Test(dataProviderClass = UserDataProvider.class, dataProvider = "provideValidUserData")
     public void loginWithValidUserTest(String username, String password) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
@@ -23,28 +24,11 @@ public class LoginTest extends BaseSauceDemoTest {
         productListAction.verifyProductListIsDisplayed();
     }
 
-    @Test(dataProvider = "provideInvalidUserData")
+    @Test(dataProviderClass = UserDataProvider.class, dataProvider = "provideInvalidUserData")
     public void loginWithInvalidUserTest(String username, String password, String expectedErrorMessage) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
         loginAction.clickLoginButton();
         loginAction.verifyLoginErrorMessage(expectedErrorMessage);
-    }
-
-    @DataProvider
-    private Object[][] provideInvalidUserData() {
-        return new Object[][] {
-                {"standard_user", "invalid_secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
-                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
-        };
-    }
-
-    @DataProvider
-    private Object[][] provideValidUserData() {
-        return new Object[][] {
-                {"standard_user", "secret_sauce"},
-                {"problem_user", "secret_sauce"},
-                {"performance_glitch_user", "secret_sauce"}
-        };
     }
 }

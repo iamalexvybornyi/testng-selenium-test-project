@@ -2,11 +2,12 @@ package com.iamalexvybornyi.saucedemo;
 
 import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
+import com.iamalexvybornyi.dataprovider.saucedemo.ProductListDataProvider;
+import com.iamalexvybornyi.dataprovider.saucedemo.UserDataProvider;
 import com.iamalexvybornyi.model.ProductItem;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -21,14 +22,14 @@ public class ProductListTest extends BaseSauceDemoTest {
     @Autowired
     private ProductListAction productListAction;
 
-    @Test(dataProvider = "provideUserData")
+    @Test(dataProviderClass = UserDataProvider.class, dataProvider = "provideValidUserData")
     public void verifyTheExpectedItemsAreDisplayedTest(@NonNull String username, @NonNull String password) {
         loginToWebsite(username, password);
         final List<ProductItem> expectedProductItems = getExpectedProductItems(new ProductItem.ProductItemTitleComparatorAsc());
         productListAction.verifyExpectedProductItemsAreDisplayed(expectedProductItems);
     }
 
-    @Test(dataProvider = "provideSortingData")
+    @Test(dataProviderClass = ProductListDataProvider.class, dataProvider = "provideProductListSortingData")
     public void verifyProductsListSortingTest(@NonNull String sortingOptionName,
                                               @NonNull Comparator<ProductItem> productItemComparator) {
         loginToWebsite("standard_user", "secret_sauce");
@@ -42,25 +43,6 @@ public class ProductListTest extends BaseSauceDemoTest {
         loginAction.enterPassword(password);
         loginAction.clickLoginButton();
         productListAction.verifyProductListIsDisplayed();
-    }
-
-    @DataProvider
-    private Object[][] provideUserData() {
-        return new Object[][] {
-                {"standard_user", "secret_sauce"},
-                {"problem_user", "secret_sauce"},
-                {"performance_glitch_user", "secret_sauce"}
-        };
-    }
-
-    @DataProvider
-    private Object[][] provideSortingData() {
-        return new Object[][] {
-                {"Name (A to Z)", new ProductItem.ProductItemTitleComparatorAsc()},
-                {"Name (Z to A)", new ProductItem.ProductItemTitleComparatorDesc()},
-                {"Price (low to high)", new ProductItem.ProductItemPriceComparatorAsc()},
-                {"Price (high to low)", new ProductItem.ProductItemPriceComparatorDesc()}
-        };
     }
 
     private List<ProductItem> getExpectedProductItems(@NonNull Comparator<ProductItem> productItemComparator) {
