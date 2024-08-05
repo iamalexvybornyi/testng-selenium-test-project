@@ -13,6 +13,7 @@ import com.iamalexvybornyi.page.saucedemo.productlist.ProductListPage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -39,7 +40,9 @@ public class ProductListAction {
                         productItem.getDescription().getText(),
                         productItem.getPrice().getText(),
                         productItem.getImage().getImageAlt(),
-                        productItem.getImage().getImageSource()
+                        // Keeping only the path of the URL
+                        Objects.requireNonNull(productItem.getImage().getImageSource())
+                                .replaceAll("^.+?[^/:](?=[?/]|$)", "")
                 )));
         log.info("Verifying that the product list from the page {} is equal to {}", actualProductItems,
                 expectedProductItems);

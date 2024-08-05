@@ -8,6 +8,9 @@ import org.testng.annotations.BeforeMethod;
 @Slf4j
 public class BaseSauceDemoTest extends BaseTest {
 
+    protected static final String STANDARD_USER_NAME = "standard_user";
+    protected static final String STANDARD_USER_PASSWORD = "secret_sauce";
+
     @BeforeMethod
     public void setUp() {
         DriverProvider.getDriver().get(urlConfiguration.getSaucedemo().getHome());

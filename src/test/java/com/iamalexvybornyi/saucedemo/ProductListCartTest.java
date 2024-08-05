@@ -17,8 +17,8 @@ public class ProductListCartTest extends BaseSauceDemoTest {
 
     @BeforeMethod
     private void loginToWebsite() {
-        loginAction.enterUsername("standard_user");
-        loginAction.enterPassword("secret_sauce");
+        loginAction.enterUsername(STANDARD_USER_NAME);
+        loginAction.enterPassword(STANDARD_USER_PASSWORD);
         loginAction.clickLoginButton();
         productListAction.verifyProductListIsDisplayed();
     }
