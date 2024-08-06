@@ -6,12 +6,16 @@ import com.iamalexvybornyi.core.element.Label;
 import com.iamalexvybornyi.core.element.locator.LocatorType;
 import com.iamalexvybornyi.core.element.locator.PageElement;
 import com.iamalexvybornyi.core.page.Page;
+import com.iamalexvybornyi.core.page.PageWithButtons;
 import lombok.Getter;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 @Getter
-public class CheckoutStepOnePage implements Page {
+public class CheckoutStepOnePage implements Page, PageWithButtons {
     @PageElement(locatorType = LocatorType.ID, locator = "first-name")
     private Input firstNameInput;
     @PageElement(locatorType = LocatorType.ID, locator = "last-name")
@@ -24,4 +28,17 @@ public class CheckoutStepOnePage implements Page {
     private Button cancelButton;
     @PageElement(locatorType = LocatorType.ID, locator = "continue")
     private Button continueButton;
+
+    @Override
+    public @NonNull String getPageName() {
+        return "Checkout Step One";
+    }
+
+    @Override
+    public @NonNull Map<String, Button> getButtons() {
+        return Map.ofEntries(
+                Map.entry("Cancel", getCancelButton()),
+                Map.entry("Continue", getContinueButton())
+        );
+    }
 }

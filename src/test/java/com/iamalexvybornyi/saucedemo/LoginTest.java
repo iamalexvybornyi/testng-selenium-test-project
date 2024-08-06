@@ -19,7 +19,7 @@ public class LoginTest extends BaseSauceDemoTest {
     public void loginWithValidUserTest(String username, String password) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage("Login", "Login");
         productListAction.verifyProductListIsDisplayed();
     }
 
@@ -27,7 +27,7 @@ public class LoginTest extends BaseSauceDemoTest {
     public void loginWithInvalidUserTest(String username, String password, String expectedErrorMessage) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage("Login", "Login");
         loginAction.verifyLoginErrorMessage(expectedErrorMessage);
     }
 }

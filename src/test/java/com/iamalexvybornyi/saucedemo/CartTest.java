@@ -1,7 +1,6 @@
 package com.iamalexvybornyi.saucedemo;
 
 import com.iamalexvybornyi.action.saucedemo.CartAction;
-import com.iamalexvybornyi.action.saucedemo.CommonAction;
 import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.dataprovider.saucedemo.CartItemsDataProvider;
@@ -24,14 +23,12 @@ public class CartTest extends BaseSauceDemoTest {
     private ProductListAction productListAction;
     @Autowired
     private CartAction cartAction;
-    @Autowired
-    private CommonAction commonAction;
 
     @BeforeMethod
     private void loginToWebsite() {
         loginAction.enterUsername(STANDARD_USER_NAME);
         loginAction.enterPassword(STANDARD_USER_PASSWORD);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage("Login", "Login");
         productListAction.verifyProductListIsDisplayed();
     }
 

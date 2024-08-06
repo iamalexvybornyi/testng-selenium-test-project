@@ -19,7 +19,7 @@ public class ProductListCartTest extends BaseSauceDemoTest {
     private void loginToWebsite() {
         loginAction.enterUsername(STANDARD_USER_NAME);
         loginAction.enterPassword(STANDARD_USER_PASSWORD);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage("Login", "Login");
         productListAction.verifyProductListIsDisplayed();
     }
 

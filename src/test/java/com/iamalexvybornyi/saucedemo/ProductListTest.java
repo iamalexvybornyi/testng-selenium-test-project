@@ -37,7 +37,7 @@ public class ProductListTest extends BaseSauceDemoTest {
     private void loginToWebsite(@NonNull String username, @NonNull String password) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage("Login", "Login");
         productListAction.verifyProductListIsDisplayed();
     }
 

@@ -28,15 +28,13 @@ public class CheckoutTest extends BaseSauceDemoTest {
     @Autowired
     private CartAction cartAction;
     @Autowired
-    private CommonAction commonAction;
-    @Autowired
     private CheckoutAction checkoutAction;
 
     @BeforeMethod
     private void loginToWebsite() {
         loginAction.enterUsername(STANDARD_USER_NAME);
         loginAction.enterPassword(STANDARD_USER_PASSWORD);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage("Login", "Login");
         productListAction.verifyProductListIsDisplayed();
     }
 
