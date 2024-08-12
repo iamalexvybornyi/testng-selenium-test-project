@@ -28,12 +28,6 @@ public class LoginAction {
         loginPage.getPasswordInput().enterText(passwordToEnter);
     }
 
-    @Step("Click login button")
-    public void clickLoginButton() {
-        log.info("Clicking login button");
-        loginPage.getLoginButton().click();
-    }
-
     @Step("Verify login error message")
     public void verifyLoginErrorMessage(@NonNull String expectedErrorMessage) {
         log.info("Getting the login error message");

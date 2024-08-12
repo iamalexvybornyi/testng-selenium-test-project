@@ -103,12 +103,6 @@ public class ProductListAction {
         productListPage.getCommonHeaderElement().getShoppingCartBadge().click();
     }
 
-    @Step("Click sidebar menu button")
-    public void clickSidebarMenuButton() {
-        log.info("Clicking sidebar menu button");
-        productListPage.getCommonHeaderElement().getMenuContainer().getMenuButton().click();
-    }
-
     @Step("Click logout link")
     public void clickLogoutLink() {
         log.info("Clicking logout link");

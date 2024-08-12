@@ -3,6 +3,8 @@ package com.iamalexvybornyi.saucedemo;
 import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.dataprovider.saucedemo.UserDataProvider;
+import com.iamalexvybornyi.util.buttons.LoginPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
@@ -19,7 +21,7 @@ public class LoginTest extends BaseSauceDemoTest {
     public void loginWithValidUserTest(String username, String password) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage(LoginPageButtonName.LOGIN, PageName.LOGIN);
         productListAction.verifyProductListIsDisplayed();
     }
 
@@ -27,7 +29,7 @@ public class LoginTest extends BaseSauceDemoTest {
     public void loginWithInvalidUserTest(String username, String password, String expectedErrorMessage) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage(LoginPageButtonName.LOGIN, PageName.LOGIN);
         loginAction.verifyLoginErrorMessage(expectedErrorMessage);
     }
 }

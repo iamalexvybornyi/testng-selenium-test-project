@@ -61,16 +61,4 @@ public class CartAction {
         "The expected product is still in the cart!");
     }
 
-    @Step("Click Continue Shopping button")
-    public void clickContinueShoppingButton() {
-        log.info("Clicking 'Continue Shopping' button");
-        cartPage.getContinueShoppingButton().click();
-    }
-
-    @Step("Click Checkout button")
-    public void clickCheckoutButton() {
-        log.info("Clicking 'Checkout' button");
-        cartPage.getCheckoutButton().click();
-    }
-
 }

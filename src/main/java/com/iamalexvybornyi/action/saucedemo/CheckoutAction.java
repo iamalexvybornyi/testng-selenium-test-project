@@ -41,30 +41,6 @@ public class CheckoutAction {
         checkoutStepOnePage.getPostalCodeInput().enterText(checkoutInformation.postalCode());
     }
 
-    @Step("Click Continue button on step one of the checkout process")
-    public void clickContinueButtonOnCheckoutStepOne() {
-        log.info("Clicking 'Continue' button on step one of the checkout process");
-        checkoutStepOnePage.getContinueButton().click();
-    }
-
-    @Step("Click Cancel button")
-    public void clickCancelButtonOnCheckoutStepOne() {
-        log.info("Clicking 'Cancel' button on step one of the checkout process");
-        checkoutStepOnePage.getCancelButton().click();
-    }
-
-    @Step("Click Continue button on step two of the checkout process")
-    public void clickFinishButtonOnCheckoutStepTwo() {
-        log.info("Clicking 'Finish' button on step two of the checkout process");
-        checkoutStepTwoPage.getFinishButton().click();
-    }
-
-    @Step("Click Cancel button on step two of the checkout process")
-    public void clickCancelButtonOnCheckoutStepTwo() {
-        log.info("Clicking 'Cancel' button on step two of the checkout process");
-        checkoutStepTwoPage.getCancelButton().click();
-    }
-
     @Step("Verify checkout information form error")
     public void verifyCheckoutInformationFormError(@NonNull String expectedError) {
         log.info("Verifying the checkout information form error");

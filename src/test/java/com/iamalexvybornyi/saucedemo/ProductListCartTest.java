@@ -2,6 +2,8 @@ package com.iamalexvybornyi.saucedemo;
 
 import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
+import com.iamalexvybornyi.util.buttons.LoginPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeMethod;
@@ -19,7 +21,7 @@ public class ProductListCartTest extends BaseSauceDemoTest {
     private void loginToWebsite() {
         loginAction.enterUsername(STANDARD_USER_NAME);
         loginAction.enterPassword(STANDARD_USER_PASSWORD);
-        loginAction.clickLoginButton();
+        commonAction.clickButtonOnPage(LoginPageButtonName.LOGIN, PageName.LOGIN);
         productListAction.verifyProductListIsDisplayed();
     }
 
