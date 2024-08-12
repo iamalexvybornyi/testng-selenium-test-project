@@ -5,6 +5,10 @@ import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.dataprovider.saucedemo.CartItemsDataProvider;
 import com.iamalexvybornyi.model.CartProductItem;
+import com.iamalexvybornyi.util.buttons.CartPageButtonName;
+import com.iamalexvybornyi.util.buttons.LoginPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
+import com.iamalexvybornyi.util.buttons.ProductListButtonName;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +32,7 @@ public class CartTest extends BaseSauceDemoTest {
     private void loginToWebsite() {
         loginAction.enterUsername(STANDARD_USER_NAME);
         loginAction.enterPassword(STANDARD_USER_PASSWORD);
-        commonAction.clickButtonOnPage("Login", "Login");
+        commonAction.clickButtonOnPage(LoginPageButtonName.LOGIN, PageName.LOGIN);
         productListAction.verifyProductListIsDisplayed();
     }
 
@@ -56,7 +60,7 @@ public class CartTest extends BaseSauceDemoTest {
     public void verifyUserCanContinueShoppingFromCartPageTest(@NonNull List<CartProductItem> cartProductItems) {
         addProductsToCartAndGoToCartPage(cartProductItems);
         cartAction.verifyExpectedProductsAreDisplayed(cartProductItems);
-        cartAction.clickContinueShoppingButton();
+        commonAction.clickButtonOnPage(CartPageButtonName.CONTINUE_SHOPPING, PageName.CART);
         commonAction.verifyTheActualUrlMatchesTheExpected(urlConfiguration.getSaucedemo().getInventory());
         productListAction.verifyTheNumberOfProductsInCart(2);
     }
@@ -65,8 +69,8 @@ public class CartTest extends BaseSauceDemoTest {
     public void verifyProductsAreStillInCartAfterLogoutAndLoginTest(@NonNull List<CartProductItem> cartProductItems) {
         addProductsToCartAndGoToCartPage(cartProductItems);
         cartAction.verifyExpectedProductsAreDisplayed(cartProductItems);
-        cartAction.clickContinueShoppingButton();
-        productListAction.clickSidebarMenuButton();
+        commonAction.clickButtonOnPage(CartPageButtonName.CONTINUE_SHOPPING, PageName.CART);
+        commonAction.clickButtonOnPage(ProductListButtonName.SIDEBAR_MENU, PageName.PRODUCT_LIST);
         productListAction.clickLogoutLink();
         loginToWebsite();
         productListAction.verifyTheNumberOfProductsInCart(2);

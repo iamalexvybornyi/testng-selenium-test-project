@@ -7,6 +7,9 @@ import com.iamalexvybornyi.core.element.locator.LocatorType;
 import com.iamalexvybornyi.core.element.locator.PageElement;
 import com.iamalexvybornyi.core.page.Page;
 import com.iamalexvybornyi.core.page.PageWithButtons;
+import com.iamalexvybornyi.util.buttons.ButtonName;
+import com.iamalexvybornyi.util.buttons.CheckoutStepOnePageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -30,15 +33,16 @@ public class CheckoutStepOnePage implements Page, PageWithButtons {
     private Button continueButton;
 
     @Override
-    public @NonNull String getPageName() {
-        return "Checkout Step One";
+    @NonNull
+    public String getPageName() {
+        return PageName.CHECKOUT_STEP_ONE.getPageName();
     }
 
     @Override
-    public @NonNull Map<String, Button> getButtons() {
+    public @NonNull Map<ButtonName, Button> getButtons() {
         return Map.ofEntries(
-                Map.entry("Cancel", getCancelButton()),
-                Map.entry("Continue", getContinueButton())
+                Map.entry(CheckoutStepOnePageButtonName.CANCEL, getCancelButton()),
+                Map.entry(CheckoutStepOnePageButtonName.CONTINUE, getContinueButton())
         );
     }
 }

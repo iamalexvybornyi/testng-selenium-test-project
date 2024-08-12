@@ -9,6 +9,9 @@ import com.iamalexvybornyi.core.page.Page;
 import com.iamalexvybornyi.core.page.PageWithButtons;
 import com.iamalexvybornyi.page.saucedemo.cart.element.CartItemElement;
 import com.iamalexvybornyi.page.saucedemo.common.element.CommonHeaderElement;
+import com.iamalexvybornyi.util.buttons.ButtonName;
+import com.iamalexvybornyi.util.buttons.CartPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -29,15 +32,16 @@ public class CartPage implements Page, PageWithButtons {
     private Button continueShoppingButton;
 
     @Override
-    public @NonNull String getPageName() {
-        return "Cart";
+    @NonNull
+    public String getPageName() {
+        return PageName.CART.getPageName();
     }
 
     @Override
-    public @NonNull Map<String, Button> getButtons() {
+    public @NonNull Map<ButtonName, Button> getButtons() {
         return Map.ofEntries(
-                Map.entry("Checkout", getCheckoutButton()),
-                Map.entry("Continue Shopping", getContinueShoppingButton())
+                Map.entry(CartPageButtonName.CHECKOUT, getCheckoutButton()),
+                Map.entry(CartPageButtonName.CONTINUE_SHOPPING, getContinueShoppingButton())
         );
     }
 }

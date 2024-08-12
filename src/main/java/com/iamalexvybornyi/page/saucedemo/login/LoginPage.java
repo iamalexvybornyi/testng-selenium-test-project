@@ -7,6 +7,9 @@ import com.iamalexvybornyi.core.element.locator.LocatorType;
 import com.iamalexvybornyi.core.element.locator.PageElement;
 import com.iamalexvybornyi.core.page.Page;
 import com.iamalexvybornyi.core.page.PageWithButtons;
+import com.iamalexvybornyi.util.buttons.ButtonName;
+import com.iamalexvybornyi.util.buttons.LoginPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -26,14 +29,16 @@ public class LoginPage implements Page, PageWithButtons {
     private Label loginErrorMessage;
 
     @Override
-    public @NonNull String getPageName() {
-        return "Login";
+    @NonNull
+    public String getPageName() {
+        return PageName.LOGIN.getPageName();
     }
 
     @Override
-    public @NonNull Map<String, Button> getButtons() {
+    @NonNull
+    public Map<ButtonName, Button> getButtons() {
         return Map.ofEntries(
-                Map.entry("Login", getLoginButton())
+                Map.entry(LoginPageButtonName.LOGIN, getLoginButton())
         );
     }
 }

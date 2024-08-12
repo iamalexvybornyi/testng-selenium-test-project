@@ -4,6 +4,8 @@ import com.iamalexvybornyi.action.saucedemo.LoginAction;
 import com.iamalexvybornyi.action.saucedemo.ProductListAction;
 import com.iamalexvybornyi.dataprovider.saucedemo.ProductListDataProvider;
 import com.iamalexvybornyi.model.ProductItem;
+import com.iamalexvybornyi.util.buttons.LoginPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class ProductListTest extends BaseSauceDemoTest {
     private void loginToWebsite(@NonNull String username, @NonNull String password) {
         loginAction.enterUsername(username);
         loginAction.enterPassword(password);
-        commonAction.clickButtonOnPage("Login", "Login");
+        commonAction.clickButtonOnPage(LoginPageButtonName.LOGIN, PageName.LOGIN);
         productListAction.verifyProductListIsDisplayed();
     }
 

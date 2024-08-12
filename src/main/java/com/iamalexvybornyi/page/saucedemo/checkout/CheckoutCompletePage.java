@@ -6,6 +6,9 @@ import com.iamalexvybornyi.core.element.locator.LocatorType;
 import com.iamalexvybornyi.core.element.locator.PageElement;
 import com.iamalexvybornyi.core.page.Page;
 import com.iamalexvybornyi.core.page.PageWithButtons;
+import com.iamalexvybornyi.util.buttons.ButtonName;
+import com.iamalexvybornyi.util.buttons.CheckoutCompletePageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -21,14 +24,15 @@ public class CheckoutCompletePage implements Page, PageWithButtons {
     private Button backHomeButton;
 
     @Override
-    public @NonNull String getPageName() {
-        return "Checkout Complete";
+    @NonNull
+    public String getPageName() {
+        return PageName.CHECKOUT_COMPLETE.getPageName();
     }
 
     @Override
-    public @NonNull Map<String, Button> getButtons() {
+    public @NonNull Map<ButtonName, Button> getButtons() {
         return Map.ofEntries(
-                Map.entry("Back Home", getBackHomeButton())
+                Map.entry(CheckoutCompletePageButtonName.BACK_HOME, getBackHomeButton())
         );
     }
 }

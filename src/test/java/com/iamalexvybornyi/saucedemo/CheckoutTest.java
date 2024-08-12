@@ -4,6 +4,7 @@ import com.iamalexvybornyi.action.saucedemo.*;
 import com.iamalexvybornyi.model.CartProductItem;
 import com.iamalexvybornyi.model.CheckoutInformation;
 import com.iamalexvybornyi.model.OrderSummary;
+import com.iamalexvybornyi.util.buttons.*;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,52 +35,52 @@ public class CheckoutTest extends BaseSauceDemoTest {
     private void loginToWebsite() {
         loginAction.enterUsername(STANDARD_USER_NAME);
         loginAction.enterPassword(STANDARD_USER_PASSWORD);
-        commonAction.clickButtonOnPage("Login", "Login");
+        commonAction.clickButtonOnPage(LoginPageButtonName.LOGIN, PageName.LOGIN);
         productListAction.verifyProductListIsDisplayed();
     }
 
     @Test
     public void verifyAllFieldsAreRequiredOnCheckoutStepOneTest() {
         addProductsToCartAndGoToCartPage();
-        cartAction.clickCheckoutButton();
+        commonAction.clickButtonOnPage(CartPageButtonName.CHECKOUT, PageName.CART);
         checkoutAction.fillInCheckoutInformationForm(new CheckoutInformation("", "", ""));
-        checkoutAction.clickContinueButtonOnCheckoutStepOne();
+        commonAction.clickButtonOnPage(CheckoutStepOnePageButtonName.CONTINUE, PageName.CHECKOUT_STEP_ONE);
         checkoutAction.verifyCheckoutInformationFormError("Error: First Name is required");
         checkoutAction.fillInCheckoutInformationForm(new CheckoutInformation("FirstName", "", ""));
-        checkoutAction.clickContinueButtonOnCheckoutStepOne();
+        commonAction.clickButtonOnPage(CheckoutStepOnePageButtonName.CONTINUE, PageName.CHECKOUT_STEP_ONE);
         checkoutAction.verifyCheckoutInformationFormError("Error: Last Name is required");
         checkoutAction.fillInCheckoutInformationForm(new CheckoutInformation("FirstName", "LastName", ""));
-        checkoutAction.clickContinueButtonOnCheckoutStepOne();
+        commonAction.clickButtonOnPage(CheckoutStepOnePageButtonName.CONTINUE, PageName.CHECKOUT_STEP_ONE);
         checkoutAction.verifyCheckoutInformationFormError("Error: Postal Code is required");
     }
 
     @Test
     public void verifyCancelButtonsReturnsUserToCartFromCheckoutStepOneTest() {
         addProductsToCartAndGoToCartPage();
-        cartAction.clickCheckoutButton();
-        checkoutAction.clickCancelButtonOnCheckoutStepOne();
+        commonAction.clickButtonOnPage(CartPageButtonName.CHECKOUT, PageName.CART);
+        commonAction.clickButtonOnPage(CheckoutStepOnePageButtonName.CANCEL, PageName.CHECKOUT_STEP_ONE);
         commonAction.verifyTheActualUrlMatchesTheExpected(urlConfiguration.getSaucedemo().getCart());
     }
 
     @Test
     public void verifyCancelButtonsReturnsUserToProductListFromCheckoutStepTwoTest() {
         addProductsToCartAndGoToCartPage();
-        cartAction.clickCheckoutButton();
+        commonAction.clickButtonOnPage(CartPageButtonName.CHECKOUT, PageName.CART);
         checkoutAction.fillInCheckoutInformationForm(new CheckoutInformation("FirstName", "LastName", "0001"));
-        checkoutAction.clickContinueButtonOnCheckoutStepOne();
-        checkoutAction.clickCancelButtonOnCheckoutStepTwo();
+        commonAction.clickButtonOnPage(CheckoutStepOnePageButtonName.CONTINUE, PageName.CHECKOUT_STEP_ONE);
+        commonAction.clickButtonOnPage(CheckoutStepTwoPageButtonName.CANCEL, PageName.CHECKOUT_STEP_TWO);
         commonAction.verifyTheActualUrlMatchesTheExpected(urlConfiguration.getSaucedemo().getInventory());
     }
 
     @Test
     public void verifyUserCanSuccessfullyPlaceOrderTest() {
         addProductsToCartAndGoToCartPage();
-        cartAction.clickCheckoutButton();
+        commonAction.clickButtonOnPage(CartPageButtonName.CHECKOUT, PageName.CART);
         checkoutAction.fillInCheckoutInformationForm(new CheckoutInformation("FirstName", "LastName", "0001"));
-        checkoutAction.clickContinueButtonOnCheckoutStepOne();
+        commonAction.clickButtonOnPage(CheckoutStepOnePageButtonName.CONTINUE, PageName.CHECKOUT_STEP_ONE);
         checkoutAction.verifyExpectedProductsAreDisplayed(getExpectedProductItems());
         checkoutAction.verifyExpectedOrderSummaryIsDisplayed(getExpectedOrderSummary());
-        checkoutAction.clickFinishButtonOnCheckoutStepTwo();
+        commonAction.clickButtonOnPage(CheckoutStepTwoPageButtonName.FINISH, PageName.CHECKOUT_STEP_TWO);
         checkoutAction.verifyCheckoutProcessIsCompleted();
     }
 

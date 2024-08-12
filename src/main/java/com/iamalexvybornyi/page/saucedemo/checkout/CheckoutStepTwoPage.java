@@ -9,6 +9,9 @@ import com.iamalexvybornyi.core.page.Page;
 import com.iamalexvybornyi.core.page.PageWithButtons;
 import com.iamalexvybornyi.page.saucedemo.cart.element.CartItemElement;
 import com.iamalexvybornyi.page.saucedemo.checkout.element.OrderSummaryInfoContainer;
+import com.iamalexvybornyi.util.buttons.ButtonName;
+import com.iamalexvybornyi.util.buttons.CheckoutStepTwoPageButtonName;
+import com.iamalexvybornyi.util.buttons.PageName;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -28,15 +31,16 @@ public class CheckoutStepTwoPage implements Page, PageWithButtons {
     private Button finishButton;
 
     @Override
-    public @NonNull String getPageName() {
-        return "Checkout STep Two";
+    @NonNull
+    public String getPageName() {
+        return PageName.CHECKOUT_STEP_TWO.getPageName();
     }
 
     @Override
-    public @NonNull Map<String, Button> getButtons() {
+    public @NonNull Map<ButtonName, Button> getButtons() {
         return Map.ofEntries(
-                Map.entry("Cancel", getCancelButton()),
-                Map.entry("Finish", getFinishButton())
+                Map.entry(CheckoutStepTwoPageButtonName.CANCEL, getCancelButton()),
+                Map.entry(CheckoutStepTwoPageButtonName.FINISH, getFinishButton())
         );
     }
 }
